@@ -1,0 +1,155 @@
+.map_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 50px;
+	width: 100%;
+  }
+  
+  .view_toggle {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+  }
+  
+  .view_toggle button {
+	padding: 10px 20px;
+	font-size: 1rem;
+	color: #ffffff;
+	background-color: #082b58;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-right: 10px; /* Space between buttons */
+  }
+  
+  .view_toggle button.active {
+	background-color: #082b58; /* Darker background for active view */
+  }
+  
+  .list_container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+  }
+  
+  .list_item {
+	display: flex;
+	flex-direction: column; /* Adjusted for submenu */
+	align-items: flex-start; /* Align content to the start */
+	background-color: #e9ebee; /* Darker background for list items */
+	color: #000000; /* Lighter text color for visibility */
+	padding: 20px;
+	margin-bottom: 10px;
+	width: 100%;
+	max-width: 600px;
+
+
+	cursor: pointer; /* Indicate the items are clickable */
+	padding: 20px; /* Increased padding */
+	border-radius: 8px; /* Slightly larger border radius for modern look */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+	transition: transform 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  .low_battery_icon,
+  .full_bin_icon {
+	font-size: 24px; /* Larger font size for icons */
+	/* If using emojis or text, set a larger size. If using images, set width and height instead. */
+  }
+
+  .list_item p{
+	color:black;
+  }
+
+
+  
+  .list_item_content {
+	flex-grow: 1;
+  }
+
+  .list_item:hover {
+	transform: translateY(-2px); /* Slight lift effect on hover */
+  }
+  
+  .submenu {
+	display: flex;
+	flex-direction: column; /* Submenu items stacked vertically */
+	background-color: #e9ebee;/* Submenu background */
+	padding: 10px;
+	margin-top: 10px; /* Space between item content and submenu */
+	width: calc(100% - 20px); /* Full width minus padding */
+  }
+  
+  .submenu_button {
+	background-color: #092d5c; /* Button background */
+	color: rgb(255, 255, 255); /* Button text color */
+	padding: 10px;
+	margin-bottom: 5px; /* Space between buttons */
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+  }
+  
+  .submenu_button:hover {
+	background-color: #02142b; /* Darken button on hover */
+  }
+  
+
+  .infoWindow {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+  }
+  
+  .infoWindow p {
+	color: #000000; /* This sets the text color to black */
+	/* any other specific styles for <p> inside .infoWindow */
+  }
+  .infoButton {
+	background-color: #082b58; /* Button background */
+	color: white; /* Button text color */
+	padding: 5px 10px;
+	margin-top: 5px; /* Space between buttons */
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	font-size: 0.8rem; /* Smaller font size for buttons in the InfoWindow */
+  }
+  
+  .infoButton:hover {
+	background-color: #03142b; /* Darken button on hover */
+  }
+
+  .icon {
+	font-size: 24px; /* Adjust the size as needed */
+	margin-right: 8px; /* Adjust the spacing as needed */
+	/* Add color or other styles as desired */
+  }
+  
+
+  .list_item_full {
+	border-left: 5px solid red; /* Flagged items with a red border */
+  }
+  
+  .list_item_ok {
+	border-left: 5px solid rgb(28, 163, 28); /* Non-flagged items with a green border */
+  }
+
+
+  
+  .list_item_low_battery {
+	/* Low battery - yellow background */
+	border-left: 5px solid rgb(255, 255, 49); /* Non-flagged items with a green border */
+  }
+  
+  .list_item_critical {
+	/* Both full bin and low battery - orange background */
+	border-left: 5px solid rgb(218, 151, 28); /* Non-flagged items with a green border */
+  }

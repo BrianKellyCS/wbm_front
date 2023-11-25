@@ -1,0 +1,76 @@
+.dashboard_container {
+  display: flex;
+  flex-direction: row;
+}
+
+.nav_container {
+  width: 150px; /* Fixed sidebar width */
+  height: 100vh;
+  background-color: #021329; 
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the start (left) */
+  position: fixed; /* Fixed position to stay in view */
+  top: 0;
+  left: 0;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.nav_container button {
+  width: 100%;
+  padding: 10px;
+  color: #fff; /* White text for buttons */
+  background: #021329;  /* Bright color for buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav_container button:hover {
+  background: rgb(0, 8, 17);  /* Darker background on hover */
+}
+
+
+.nav_container .logout_button {
+  background: #ff4136;
+  margin-top: auto;
+}
+
+.nav_container .logout_button:hover {
+  background: #e82c20; /* A darker shade of red for hover */
+}
+
+/* Responsive design for the sidebar and main content */
+@media (max-width: 1307px) {
+  .dashboard_container {
+    flex-direction: column; /* Stack sidebar and main content */
+  }
+  .nav_container {
+    width: 100%; /* Full width for the sidebar */
+    height: auto; /* Adjust height to content */
+    position: relative; /* Change position for mobile */
+  }
+  .main_content {
+    margin-left: 0; /* Remove margin as sidebar is now above the content */
+    width: 100%; /* Full width for main content */
+  }
+  .nav_container{
+    flex-direction:row;
+  }
+
+  .nav_container button {
+    width: 100%;
+    padding: 10px;
+    color: #fff; /* White text for buttons */
+    background-color: #021329; 
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+
+}
+
