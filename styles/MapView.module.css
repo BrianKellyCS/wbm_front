@@ -13,19 +13,18 @@
   }
   
   .view_toggle button {
+	margin: 10px;
 	padding: 10px 20px;
-	font-size: 1rem;
-	color: #ffffff;
-	background-color: #082b58;
+	background-color: #4CAF50; /* Example button color */
+	color: white;
 	border: none;
-	border-radius: 4px;
+	border-radius: 5px;
 	cursor: pointer;
-	transition: background-color 0.3s;
-	margin-right: 10px; /* Space between buttons */
+	font-size: 1rem;
   }
   
   .view_toggle button.active {
-	background-color: #082b58; /* Darker background for active view */
+	background-color: #2d7a31; /* Darker shade on hover */
   }
   
   .list_container {
@@ -85,8 +84,9 @@
 	width: calc(100% - 20px); /* Full width minus padding */
   }
   
+
   .submenu_button {
-	background-color: #092d5c; /* Button background */
+	background-color: #4CAF50;  /* Button background */
 	color: rgb(255, 255, 255); /* Button text color */
 	padding: 10px;
 	margin-bottom: 5px; /* Space between buttons */
@@ -97,7 +97,7 @@
   }
   
   .submenu_button:hover {
-	background-color: #02142b; /* Darken button on hover */
+	background-color: #45a049;  /* Darken button on hover */
   }
   
 
@@ -112,7 +112,7 @@
 	/* any other specific styles for <p> inside .infoWindow */
   }
   .infoButton {
-	background-color: #082b58; /* Button background */
+	background-color: #4CAF50;  /* Button background */
 	color: white; /* Button text color */
 	padding: 5px 10px;
 	margin-top: 5px; /* Space between buttons */
@@ -124,7 +124,7 @@
   }
   
   .infoButton:hover {
-	background-color: #03142b; /* Darken button on hover */
+	background-color: #45a049; /* Darken button on hover */
   }
 
   .icon {
@@ -152,4 +152,9 @@
   .list_item_critical {
 	/* Both full bin and low battery - orange background */
 	border-left: 5px solid rgb(218, 151, 28); /* Non-flagged items with a green border */
+  }
+
+  .register_button_container {
+	margin-bottom: 10px; /* Or any other spacing you prefer */
+	/* Add any other styles you want for this container */
   }

@@ -21,6 +21,9 @@ function MapView() {
     lat: 34.242245312686954,
     lng: -118.53043313617162,
   };
+
+
+
   const mapOptions = {
     disableDefaultUI: true,
     clickableIcons: true,
@@ -143,10 +146,13 @@ function MapView() {
 
   return (
     <div className={styles.map_container}>
-      <div className={styles.view_toggle}>
-        <button onClick={() => setView('map')} className={view === 'map' ? styles.active : ''}>Map View</button>
-        <button onClick={() => setView('list')} className={view === 'list' ? styles.active : ''}>List View</button>
-      </div>
+    <div className={styles.register_button_container}>
+      <button className={styles.active}>Register New Bin</button>
+    </div>
+    <div className={styles.view_toggle}>
+      <button onClick={() => setView('map')} className={view === 'map' ? styles.active : ''}>Map View</button>
+      <button onClick={() => setView('list')} className={view === 'list' ? styles.active : ''}>List View</button>
+    </div>
       {view === 'map' ? (
         <div style={{ width: mapWidth, height: mapHeight }}>
           <GoogleMap
@@ -186,6 +192,9 @@ function MapView() {
           </GoogleMap>
         </div>
       ) : renderListView()}
+
+
+
     </div>
   );
 }
