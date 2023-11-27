@@ -42,15 +42,13 @@ function ManageEmployees() {
 
   // Function to handle the Add Employee button click
   const handleAddEmployee = () => {
-    // Placeholder for whatever logic you'll use to add an employee
-    // This could be updating state to show a modal, for example
+    //Logic for add employee
     console.log('Add Employee button clicked');
   };
 
   // Function to handle the View Logs button/link click
   const handleViewLogs = () => {
-    // Placeholder for logic to view logs
-    // This could be navigating to a different page or showing a section
+    //logic for view logs
     console.log('View Logs clicked');
   };
 

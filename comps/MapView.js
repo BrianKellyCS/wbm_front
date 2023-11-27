@@ -11,7 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBatteryQuarter, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
-function MapView() {
+function MapView({ isAdmin }) {
+  console.log("isAdmin:", isAdmin);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [view, setView] = useState('map'); // 'map' or 'list'
   const zoomDistance = 16;
@@ -81,7 +82,7 @@ function MapView() {
   };
 
 
-  // Updated function to determine the class based on device's level and battery
+  // or list: Updated function to determine the class based on device's level and battery
   const getListItemClass = (level, battery) => {
     if (level >= 80 && battery <= 25) {
       return styles.list_item_critical; // Both full bin and low battery
@@ -94,7 +95,7 @@ function MapView() {
     }
   };
 
-
+//for map
   const getStatusColor = (level, battery) => {
     if (level >= 80 && battery <= 25) {
       return 'orange'; // Both full bin and low battery
@@ -107,7 +108,27 @@ function MapView() {
     }
   };
   
-
+  // render the legend for the map
+  const MapLegend = () => (
+    <div className={styles.mapLegend}>
+      <div className={styles.legendItem}>
+        <span className={styles.legendColorBox} style={{ backgroundColor: 'orange' }}></span>
+        <span>Full bin + low battery</span>
+      </div>
+      <div className={styles.legendItem}>
+        <span className={styles.legendColorBox} style={{ backgroundColor: 'red' }}></span>
+        <span>Full bin</span>
+      </div>
+      <div className={styles.legendItem}>
+        <span className={styles.legendColorBox} style={{ backgroundColor: 'yellow' }}></span>
+        <span>Low battery</span>
+      </div>
+      <div className={styles.legendItem}>
+        <span className={styles.legendColorBox} style={{ backgroundColor: 'green' }}></span>
+        <span>No issues</span>
+      </div>
+    </div>
+  );
 
 
     const renderListView = () => (
@@ -146,13 +167,19 @@ function MapView() {
 
   return (
     <div className={styles.map_container}>
-    <div className={styles.register_button_container}>
-      <button className={styles.active}>Register New Bin</button>
-    </div>
+      
+      {/* Conditionally render the register button if isAdmin is true */}
+      {isAdmin && (
+        <div className={styles.register_button_container}>
+          <button className={styles.active}>Register New Bin</button>
+        </div>
+      )}
     <div className={styles.view_toggle}>
       <button onClick={() => setView('map')} className={view === 'map' ? styles.active : ''}>Map View</button>
       <button onClick={() => setView('list')} className={view === 'list' ? styles.active : ''}>List View</button>
     </div>
+          {/* Render the legend component */}
+          <MapLegend />
       {view === 'map' ? (
         <div style={{ width: mapWidth, height: mapHeight }}>
           <GoogleMap

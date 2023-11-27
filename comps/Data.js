@@ -1,7 +1,8 @@
 // Data.js
-
-import React, { useState } from "react";
-import styles from "../styles/Data.module.css";
+import React, { useState } from 'react';
+import { Bar, Line } from 'react-chartjs-2';
+import Chart from 'chart.js/auto';
+import styles from '../styles/Data.module.css';
 
 function Data() {
   // State to hold selected date range for analytics
@@ -21,62 +22,87 @@ function Data() {
     datasets: [{ data: [20, 45, 76, 20] }]
   };
 
-  // Handlers for date range selection
-  const handleStartDateChange = (event) => {
-    setDateRange({ ...dateRange, startDate: event.target.value });
+  // Dummy data for the fill levels over time chart
+  const fillLevelsData = {
+    labels: fillLevelsOverTime.labels,
+    datasets: [
+      {
+        label: 'Fill Level %',
+        data: fillLevelsOverTime.datasets[0].data,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      },
+    ],
   };
 
-  const handleEndDateChange = (event) => {
-    setDateRange({ ...dateRange, endDate: event.target.value });
+  // Options for the fill levels over time chart
+  const fillLevelsOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   };
 
-  // Dummy function to simulate report generation
-  const generateReport = () => {
-    console.log("Report generated for: ", dateRange);
-    // Logic to generate report would go here
+  // Dummy data for the most frequently filled bins chart
+  const mostFrequentBinsData = {
+    labels: mostFrequentlyFilledBins.labels,
+    datasets: [
+      {
+        label: 'Number of Times Filled',
+        data: mostFrequentlyFilledBins.datasets[0].data,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(255, 205, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
   };
+
+  // Options for the most frequently filled bins chart
+  const mostFrequentBinsOptions = {
+    indexAxis: 'y', // Use the y-axis as the index axis (horizontal bar chart)
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  
 
   return (
     <div className={styles.analytics_container}>
-      <h1>Data Analytics</h1>
-
-      {/* Date Range Selector */}
-      <div className={styles.date_range_selector}>
-        <input
-          type="date"
-          value={dateRange.startDate}
-          onChange={handleStartDateChange}
-        />
-        <input
-          type="date"
-          value={dateRange.endDate}
-          onChange={handleEndDateChange}
-        />
-        <button onClick={generateReport}>Generate Report</button>
-      </div>
+      {/* ... existing code for date range selectors ... */}
 
       {/* Placeholder for Graphs and Charts */}
       <div className={styles.chart_container}>
-        {/* Placeholder for fill levels over time chart */}
+        {/* Chart for fill levels over time */}
         <div className={styles.chart}>
-          <h2>Fill Levels Over Time</h2>
-          {/* Chart component would go here */}
+          <h2>Avg Fill Levels Over Time</h2>
+          <Line data={fillLevelsData} options={fillLevelsOptions} />
         </div>
 
-        {/* Placeholder for most frequently filled bins chart */}
+        {/* Chart for most frequently filled bins */}
         <div className={styles.chart}>
           <h2>Most Frequently Filled Bins</h2>
-          {/* Chart component would go here */}
+          <Bar data={mostFrequentBinsData} options={mostFrequentBinsOptions} />
         </div>
 
         {/* Additional charts as needed */}
       </div>
 
-      {/* Placeholder for Predictive Insights */}
-      <div className={styles.predictive_insights}>
-        <h2>Insights</h2>
-        {/* Insights content would go here */}
-      </div>
+      {/* ... existing code for predictive insights ... */}
     </div>
   );
 }

@@ -139,22 +139,47 @@
   }
   
   .list_item_ok {
-	border-left: 5px solid rgb(28, 163, 28); /* Non-flagged items with a green border */
+	border-left: 5px solid rgb(35, 194, 35); /* Non-flagged items with a green border */
   }
 
 
   
   .list_item_low_battery {
 	/* Low battery - yellow background */
-	border-left: 5px solid rgb(255, 255, 49); /* Non-flagged items with a green border */
+	border-left: 5px solid yellow; /* Non-flagged items with a green border */
   }
   
   .list_item_critical {
 	/* Both full bin and low battery - orange background */
-	border-left: 5px solid rgb(218, 151, 28); /* Non-flagged items with a green border */
+	border-left: 5px solid orange; /* Non-flagged items with a green border */
   }
 
   .register_button_container {
 	margin-bottom: 10px; /* Or any other spacing you prefer */
 	/* Add any other styles you want for this container */
+  }
+
+  .mapLegend {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	padding: 10px;
+	background: #fff;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .legendItem {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+	margin-right: 10px;
+  }
+  
+  .legendColorBox {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 2px;
+	border: 1px solid #000; /* Optional: adds a border around the color box */
   }

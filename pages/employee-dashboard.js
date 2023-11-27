@@ -5,38 +5,53 @@ import Feedback from "../comps/Feedback";
 import ManageEmployees from "../comps/ManageEmployees";
 import Data from "../comps/Data.js";
 import { devices } from "../aaa_samples/devices";
+import { employees } from "../aaa_samples/employees";
+import { feedbacks } from "../aaa_samples/feedbacks";
 import styles from "../styles/Dashboard.module.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function EmployeeDashboard() {
+function AdminDashboard() {
   const router = useRouter();
   const [currentScreen, setCurrentScreen] = useState("");
   const [cardContainerStyle, setCardContainerStyle] = useState({display: 'block'})
 
-  const alerts = devices.filter((device) => device.level >= 75 || device.battery < 25);
+  const alerts = devices.filter((device) => device.level >= 80 || device.battery < 25);
+  // Processing the real data for stats, activities, and alertsData
+  const fullBins = devices.filter(device => device.level >= 80).length;
+  const lowBattery = devices.filter(device => device.battery < 25).length;
 
   const AlertsPanel = ({ alerts }) => {
     return (
-      <div className="alerts-panel">
-        <h5>Alerts</h5>
-        {/* Map through alerts and display them */}
+      <div className={styles.alerts_panel}>
+        <h5>Alerts ({alerts.length})</h5>
         {alerts.map((alert, index) => (
-          <div key={index}>{alert.message}</div>
+          <div 
+            key={index} 
+            className={`
+              ${styles.alert_item} 
+              ${alert.message.includes('Full + Low Batt') ? styles.alert_combined : ''}
+              ${alert.message.includes('Full') ? styles.alert_full : ''}
+              ${alert.message.includes('Low Batt') ? styles.alert_low : ''}
+            `}
+          >
+            {alert.message}
+          </div>
         ))}
       </div>
     );
   };
 
   const QuickStats = ({ stats }) => {
-    // stats could be an object containing various statistics
+    // stats
     return (
       <div className="quick-stats">
-        {/* Render your stats here */}
+        {/* Render stats here */}
+        <h5>Overview</h5>
         <div>Total Bins: {stats.totalBins}</div>
         <div>Full Bins: {stats.fullBins}</div>
-        {/* ... other stats */}
+        {/* any other stats */}
       </div>
     );
   };
@@ -46,9 +61,12 @@ function EmployeeDashboard() {
     return (
       <div className="activity-feed">
         <h5>Recent Activity</h5>
-        {/* Map through activities and display them */}
         {activities.map((activity, index) => (
-          <div key={index}>{activity.description}</div>
+          <div key={index}>
+            <div>Date: {activity.date}</div>
+            <div>Bin: {activity.device}</div>
+            <div>Description: {activity.description}</div>
+          </div>
         ))}
       </div>
     );
@@ -57,6 +75,7 @@ function EmployeeDashboard() {
   // Dashboard cards
   const DashboardCards = () => (
     <div className={styles.dashboard}>
+
       {/* Card for MapView */}
       <div className={styles.card} onClick={() => setCurrentScreen("mapView")}>
       <i class="bi bi-trash"></i>
@@ -85,7 +104,7 @@ function EmployeeDashboard() {
   const showScreen = () => {
     switch (currentScreen) {
       case "mapView":
-        return <MapView />;
+        return <MapView isAdmin={false} />;
       case "feedback":
         return <Feedback />;
       default:
@@ -99,23 +118,38 @@ function EmployeeDashboard() {
   };
 
   const stats = {
-    totalBins: 100, // You will replace this with actual data
-    fullBins: 25, // You will replace this with actual data
+    totalBins: devices.length,
+    fullBins: fullBins,
+    lowBattery: lowBattery 
     // ... more stats
   };
 
-  const activities = [
-    { description: 'Bin #123 emptied' },
-    { description: 'New feedback received' },
-    // ... more activities
-  ];
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-  // Example alerts data
-  const alertsData = [
-    { message: 'Bin #456 is 90% full' },
-    { message: 'Bin #789 is 85% full' },
-    // ... more alerts
-  ];
+  const activities = feedbacks
+  .filter(feedback => {
+    const feedbackDate = new Date(feedback.date);
+    return feedbackDate >= oneWeekAgo;
+  })
+  .map(feedback => ({
+    date: feedback.date, // The date of the feedback
+    device: feedback.device, // The device associated with the feedback
+    description: feedback.description // The description of the feedback
+  }));
+
+
+
+  const alertsData = devices.map(device => {
+    if (device.level >= 80 && device.battery < 25) {
+      return { message: `Bin ${device.id}: Full + Low Batt` };
+    } else if (device.level >= 80) {
+      return { message: `Bin ${device.id}: Full` };
+    } else if (device.battery < 25) {
+      return { message: `Bin ${device.id}: Low Batt` };
+    }
+    return null;
+  }).filter(alert => alert !== null); // Filter out the null entries
 
   return (
     <>
@@ -131,7 +165,7 @@ function EmployeeDashboard() {
               <i className="bi bi-house"></i> Home
             </button>
             <button className="nav-link" aria-current="page" onClick={() => setCurrentScreen("mapView")}>
-              <i className="bi bi-trash"></i> {alerts.length > 0 ? `Bins (${alerts.length})` : 'Bins'}
+              <i className="bi bi-trash"></i>Bins
             </button>
             <button className="nav-link" onClick={() => setCurrentScreen("feedback")}>
               <i className="bi bi-envelope-fill"></i> Feedback
@@ -148,19 +182,22 @@ function EmployeeDashboard() {
       {/* Sidebar with QuickStats, AlertsPanel, and RecentActivityFeed */}
       <div className={styles.sidebar}>
         {/* Quick Stats */}
-        <div className={styles['sidebar-panel-item']}>
-          <div className={styles.quick_stats}><QuickStats stats={stats} /></div>
-        </div>
+        <div className={styles.stats_item}><QuickStats stats={stats} /></div>
 
-        {/* Alerts Panel */}
-        <div className={styles['sidebar-panel-item']}>
-          <div className={styles.alerts_panel}><AlertsPanel alerts={alertsData} /></div>
+      {/* Alerts Panel */}
+      {alertsData.length > 0 && (
+        <div className={styles.alerts_item}>
+          <AlertsPanel alerts={alertsData} />
         </div>
+      )}
 
-        {/* Recent Activity Feed */}
-        <div className={styles['sidebar-panel-item']}>
-          <div className={styles.activity_feed}><RecentActivityFeed activities={activities} /></div>
+      {/* Recent Activity Feed */}
+      {activities.length > 0 && (
+        <div className={styles.feed_item}>
+          <RecentActivityFeed activities={activities} />
         </div>
+      )}
+
       </div>
 
       
@@ -184,4 +221,4 @@ function EmployeeDashboard() {
   );
 }
 
-export default EmployeeDashboard;
+export default AdminDashboard;

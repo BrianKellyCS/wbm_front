@@ -95,15 +95,18 @@
 
 /* Styling for individual panels in the sidebar */
 .sidebar-panel {
-  background-color: #232629;  /* Slightly lighter than sidebar bg */
+  background-color: #343a40; /* Dark background for contrast */
+  color: #ffffff; /* Light text for readability */
   margin-bottom: 20px; /* Space between panels */
   padding: 15px;
   border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
 }
 
 .sidebar-panel h5 {
   color: #f1f1f1;
   margin-bottom: 15px;
+  font-weight: 500; /* Semi-bold for headers */
 }
 
 /* Scrollbar styling for sidebar */
@@ -117,17 +120,47 @@
 }
 
 /* Styling for the items in the panels */
-.sidebar-panel-item {
-  background-color: #232629; /* Even lighter for contrast */
+.sidebar_panel_item {
+  background-color: #4CAF50; /* Even lighter for contrast */
+  color: black;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 4px;
-  cursor: pointer; /* Indicate items are interactive */
   transition: background-color 0.3s; /* Smooth transition for hover effect */
 }
 
-.sidebar-panel-item:hover {
-  background-color: #044192; /* Highlight item on hover */
+.sidebar_panel_item:hover {
+  background-color: #4CAF50;  /* Highlight item on hover */
+
+}
+
+.stats_item {
+  background-color: #232629;  /* Even lighter for contrast */
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.alerts_item {
+  background-color: #232629; /* Even lighter for contrast */
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  display: block;
+}
+
+.feed_item {
+  background-color: #394858;/* Even lighter for contrast */
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+  display: block;
 }
 
 /* Responsive adjustments */
@@ -202,4 +235,30 @@
 
 .backButton:hover {
   background-color: #0056b3; /* Darker shade for hover state */
+}
+
+.hidden {
+  display: none;
+}
+
+.alert_item {
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.alert_full {
+  background-color: red; /* Bootstrap's `danger` color for full bins */
+  color:white;
+}
+
+.alert_low {
+  background-color: yellow; /* Bootstrap's `warning` color for low battery */
+  color: black;
+}
+
+.alert_combined {
+  background-color: orange;/* Bootstrap's `info` color for full bin + low battery */
+  color: black;
 }
