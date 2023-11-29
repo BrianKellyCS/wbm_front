@@ -183,3 +183,22 @@
 	margin-right: 2px;
 	border: 1px solid #000; /* Optional: adds a border around the color box */
   }
+
+  .flaggedBinsContainer {
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+	width: 100%;
+  }
+  
+  .flaggedBinItem {
+	padding: 10px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f9f9f9;
+  }
+  
+  .flaggedBinItem div {
+	margin-bottom: 5px;
+  }

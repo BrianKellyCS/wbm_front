@@ -5,6 +5,10 @@ import Chart from 'chart.js/auto';
 import styles from '../styles/Data.module.css';
 
 function Data() {
+
+
+
+
   // State to hold selected date range for analytics
   const [dateRange, setDateRange] = useState({
     startDate: "",
@@ -18,8 +22,8 @@ function Data() {
   };
 
   const mostFrequentlyFilledBins = {
-    labels: ["Bin 1", "Bin 2", "Bin 3", "Bin 4"],
-    datasets: [{ data: [20, 45, 76, 20] }]
+    labels: ["Bin 1", "Bin 2", "Bin 3", "Bin 4", "Bin 5"],
+    datasets: [{ data: [20, 45, 55, 20, 79] }]
   };
 
   // Dummy data for the fill levels over time chart
@@ -79,6 +83,33 @@ function Data() {
     },
   };
 
+
+  const calculateInsights = () => {
+    const binData = mostFrequentlyFilledBins.datasets[0].data;
+    const labels = mostFrequentlyFilledBins.labels;
+    
+    // Calculate the average fill level
+    const averageFill = binData.reduce((sum, current) => sum + current, 0) / binData.length;
+    // Define a threshold for what we consider an outlier, e.g., ~50% above the average
+    const outlierThreshold = averageFill * 1.8;
+  
+    const mostFilledBins = labels.filter((_, index) => binData[index] === Math.max(...binData));
+    const leastFilledBins = labels.filter((_, index) => binData[index] === Math.min(...binData));
+    
+    let suggestions = [];
+    binData.forEach((fillLevel, index) => {
+      if (fillLevel > outlierThreshold) {
+        suggestions.push(`${labels[index]} is filled significantly more often than average. Consider adding another bin in its area.`);
+      }
+    });
+  
+    return {
+      mostFilledBins: mostFilledBins.join(", "),
+      leastFilledBins: leastFilledBins.join(", "),
+      suggestions
+    };
+  };
+  const insights = calculateInsights();
   
 
   return (
@@ -102,7 +133,40 @@ function Data() {
         {/* Additional charts as needed */}
       </div>
 
-      {/* ... existing code for predictive insights ... */}
+{/* Insights Section */}
+<div className={styles.insights_container}>
+  <h2 className={styles.insights_heading}>Insights</h2>
+  
+  <div className={styles.insight}>
+    <h3>Bins Summary</h3>
+    <div>
+      <p>Most Filled:</p>
+      <ul>
+        {insights.mostFilledBins.split(", ").map((bin, index) => (
+          <li key={index}>{bin}</li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <p>Least Filled:</p>
+      <ul>
+        {insights.leastFilledBins.split(", ").map((bin, index) => (
+          <li key={index}>{bin}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  {insights.suggestions.length > 0 && (
+    <div className={styles.insight}>
+      <h3>Suggestions</h3>
+      {insights.suggestions.map((suggestion, index) => (
+        <p key={index}>{suggestion}</p>
+      ))}
+    </div>
+  )}
+</div>
+
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { devices } from "../aaa_samples/devices";
 import { feedbacks } from "../aaa_samples/feedbacks";
 
 function Feedback() {
-  console.log(devices);
+
 
   const [sortedFeedbacks, setSortedFeedbacks] = useState(feedbacks);
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
@@ -27,21 +27,31 @@ function Feedback() {
   const sortFeedbacks = (key) => {
     let sortedData = [...feedbacks];
     let direction = 'ascending';
+    
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
       direction = 'descending';
       sortedData.reverse();
     } else {
       sortedData.sort((a, b) => {
-        if (a[key] < b[key]) {
+        let valA = a[key];
+        let valB = b[key];
+        
+        // Check if the key is meant to be a number and parse it if so.
+        if (!isNaN(Number(valA)) && !isNaN(Number(valB))) {
+          valA = Number(valA);
+          valB = Number(valB);
+        }
+        
+        if (valA < valB) {
           return -1;
         }
-        if (a[key] > b[key]) {
+        if (valA > valB) {
           return 1;
         }
         return 0;
       });
     }
-
+  
     setSortedFeedbacks(sortedData);
     setSortConfig({ key, direction });
   };
@@ -76,10 +86,10 @@ function Feedback() {
     <thead>
       <tr>
         <th>Employee</th>
-        <th>Device</th>
-        <th>Title</th>
+        <th onClick={() => sortFeedbacks('device')}>Device</th>
+        <th onClick={() => sortFeedbacks('title')}>Title</th>
         <th>Description</th>
-        <th>Date</th>
+        <th onClick={() => sortFeedbacks('date')}>Date</th>
       </tr>
     </thead>
     <tbody>

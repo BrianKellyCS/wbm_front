@@ -55,11 +55,49 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Lighter shadow for depth */
   }
   
-  .predictive_insights {
-    background-color: #f8f8f8; /* Slightly off-white backgrounds for insights */
+  .insights_container {
+    background-color: #f8f8f8;
     border-radius: 10px;
-    padding: 30px; /* Consistent with chart padding */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Consistent shadow */
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     margin-top: 20px;
+    display: flex; /* Changed from grid to flex for vertical layout */
+    flex-direction: column; /* Arrange children in a column */
+  }
+  
+  .insights_heading {
+    grid-column: 1 / -1; /* Full width */
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+  
+  .insight {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px; /* Add space between cards */
+  }
+  
+  .insight h3 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .insight div {
+    margin-bottom: 15px; /* Space between summary and suggestions */
+  }
+  
+  .insight ul {
+    list-style-type: disc; /* Bullet points for list */
+    padding-left: 20px; /* Indent for bullet points */
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .insight p {
+    margin: 0;
+
+    color: black;
   }
   

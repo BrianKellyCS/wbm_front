@@ -3,6 +3,10 @@
 .dashboard_container {
   display: flex;
   flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust min and max as necessary */
+  gap: 20px;
+  justify-content: center;
 }
 
 .nav_container {
@@ -45,36 +49,7 @@
   background: #e82c20; /* A darker shade of red for hover */
 }
 
-/* Responsive design for the sidebar and main content */
-@media (max-width: 1307px) {
-  .dashboard_container {
-    flex-direction: column; /* Stack sidebar and main content */
-  }
-  .nav_container {
-    width: 100%; /* Full width for the sidebar */
-    height: auto; /* Adjust height to content */
-    position: relative; /* Change position for mobile */
-  }
-  .main_content {
-    margin-left: 270px; /* Remove margin as sidebar is now above the content */
-    width: 100%; /* Full width for main content */
-  }
-  .nav_container{
-    flex-direction:row;
-  }
 
-  .nav_container button {
-    width: 100%;
-    padding: 10px;
-    color: #fff; /* White text for buttons */
-    background-color: #021329; 
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-
-}
 
 
 
@@ -135,7 +110,7 @@
 }
 
 .stats_item {
-  background-color: #232629;  /* Even lighter for contrast */
+  background-color: rgb(63, 63, 63);  /* Even lighter for contrast */
   color: rgb(255, 255, 255);
   margin-bottom: 10px;
   padding: 10px;
@@ -154,25 +129,13 @@
 }
 
 .feed_item {
-  background-color: #394858;/* Even lighter for contrast */
+  background-color:rgb(63, 63, 63);/* Even lighter for contrast */
   color: rgb(255, 255, 255);
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 4px;
   transition: background-color 0.3s; /* Smooth transition for hover effect */
   display: block;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1316px) {
-  .sidebar {
-    display: none;
-
-  }
-
-  .sidebar-panel {
-    border-radius: 0; /* Remove border radius for full-width panels */
-  }
 }
 
 .cardContainer {
@@ -249,16 +212,61 @@
 }
 
 .alert_full {
-  background-color: red; /* Bootstrap's `danger` color for full bins */
+  border-left: 5px solid red;  /* Bootstrap's `danger` color for full bins */
+  background-color:rgb(63, 63, 63);
   color:white;
 }
 
 .alert_low {
-  background-color: yellow; /* Bootstrap's `warning` color for low battery */
-  color: black;
+  border-left: 5px solid yellow; /* Bootstrap's `warning` color for low battery */
+  color: white;
+  background-color:rgb(63, 63, 63);
 }
 
 .alert_combined {
-  background-color: orange;/* Bootstrap's `info` color for full bin + low battery */
-  color: black;
+  border-left: 5px solid orange;/* Bootstrap's `info` color for full bin + low battery */
+  color: white;
+  background-color:rgb(63, 63, 63);
 }
+
+/* dashboard.module.css */
+.dashboardContainer {
+  margin-top: 80px;
+  margin-left: 220px; /* Sidebar width */
+  margin-right: auto;
+  
+  max-width: calc(100% - 240px); /* Adjust based on sidebar width and desired padding */
+  padding: 20px;
+  transition: margin-left 0.3s;
+  /* Other styles... */
+}
+
+
+@media (max-width: 1316px) { /* Adjust breakpoint as necessary */
+  .dashboardContainer {
+    margin-left: 20px; /* Give some space from the sidebar if it's collapsed or hidden */
+    margin-right: 20px; /* Give some space from the right edge of the window */
+    max-width: 100%; /* Allow the container to be full width */
+  }
+  
+  .dashboard {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust for fewer columns on smaller screens */
+  }
+  .sidebar {
+    display: none;
+
+  }
+
+  .sidebar-panel {
+    border-radius: 0; /* Remove border radius for full-width panels */
+  }
+}
+
+/* You may add more breakpoints for finer control */
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Even fewer columns on small screens */
+  }
+}
+
+

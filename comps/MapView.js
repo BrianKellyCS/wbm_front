@@ -1,30 +1,50 @@
-import React, { useState } from "react";
-import {
-  useLoadScript,
-  GoogleMap,
-  MarkerF,
-  InfoWindowF,
-} from "@react-google-maps/api";
+import React, { useState, useEffect } from "react";
+import { useLoadScript, GoogleMap, MarkerF, InfoWindowF } from "@react-google-maps/api";
 import styles from "../styles/MapView.module.css";
-import { devices } from "../aaa_samples/devices";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBatteryQuarter, faTrash } from '@fortawesome/free-solid-svg-icons';
 
+// Example data import - to be replaced by API call later
+import { devices as exampleDevices } from "../aaa_samples/devices";
+
 
 function MapView({ isAdmin }) {
-  console.log("isAdmin:", isAdmin);
+  // Custom hook for fetching device data
+  const useFetchDevices = () => {
+    // Replace with API call logic later
+    return exampleDevices;
+  };
+
+  // State for devices and loading/error handling
+  const [devices, setDevices] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+
+  // Load devices data
+  useEffect(() => {
+    setIsLoading(true);
+    try {
+      const fetchedDevices = useFetchDevices();
+      setDevices(fetchedDevices);
+    } catch (e) {
+      setError(e);
+    }
+    setIsLoading(false);
+  }, []);
+
+  // Other existing state variables
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [view, setView] = useState('map'); // 'map' or 'list'
+  //display list view
+  const [activeDevice, setActiveDevice] = useState(null); // To track the active device for submenu
+
+
+  // Google Maps settings
   const zoomDistance = 16;
   const mapWidth = "800px";
   const mapHeight = "800px";
-  const mapCenter = {
-    lat: 34.242245312686954,
-    lng: -118.53043313617162,
-  };
-
-
-
+  const mapCenter = { lat: 34.242245312686954, lng: -118.53043313617162 };
   const mapOptions = {
     disableDefaultUI: true,
     clickableIcons: true,
@@ -35,10 +55,6 @@ function MapView({ isAdmin }) {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY,
     libraries: libraries,
   });
-
-  const handleMarkerClick = (device) => {
-    setSelectedMarker(device);
-  };
 
   // Function to determine the marker icon based on the bin's level and battery
   const getMarkerIcon = (level, battery) => {
@@ -54,8 +70,7 @@ function MapView({ isAdmin }) {
     };
   };
 
-    //display list view
-    const [activeDevice, setActiveDevice] = useState(null); // To track the active device for submenu
+
 
 
   const renderStatusIcons = (level, battery) => {
@@ -161,10 +176,13 @@ function MapView({ isAdmin }) {
 
 
     
-  if (!isLoaded) {
+  if (!isLoaded || isLoading) {
     return <p>Loading...</p>;
   }
 
+  if (error) {
+    return <p>Error loading data</p>;
+  }
   return (
     <div className={styles.map_container}>
       

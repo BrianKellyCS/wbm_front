@@ -4,15 +4,19 @@ import MapView from "../comps/MapView";
 import Feedback from "../comps/Feedback";
 import ManageEmployees from "../comps/ManageEmployees";
 import Data from "../comps/Data.js";
+import Routes from "../comps/Routes";
 import { devices } from "../aaa_samples/devices";
 import { employees } from "../aaa_samples/employees";
 import { feedbacks } from "../aaa_samples/feedbacks";
 import styles from "../styles/Dashboard.module.css";
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 function AdminDashboard() {
+  useEffect(() => {
+    // Dynamically import the Bootstrap JS
+    import('bootstrap/dist/js/bootstrap.bundle.min.js');
+  }, []);
   const router = useRouter();
   const [currentScreen, setCurrentScreen] = useState("");
   const [cardContainerStyle, setCardContainerStyle] = useState({display: 'block'})
@@ -87,6 +91,12 @@ function AdminDashboard() {
       <h3>Bins</h3>
       </div>
 
+      {/* Card for Routes */}
+      <div className={styles.card} onClick={() => setCurrentScreen("routes")}>
+        <i className="bi bi-map"></i>
+        <h3>Routes</h3>
+      </div>
+
       {/* Card for Employees */}
       <div className={styles.card} onClick={() => setCurrentScreen("employees")}>
         <i className="bi bi-people-fill"></i>
@@ -116,6 +126,8 @@ function AdminDashboard() {
     switch (currentScreen) {
       case "mapView":
         return <MapView isAdmin={true} />;
+      case "routes":
+        return <Routes />;
       case "employees":
         return <ManageEmployees />;
       case "feedback":
@@ -184,6 +196,9 @@ function AdminDashboard() {
             </button>
             <button className="nav-link" aria-current="page" onClick={() => setCurrentScreen("mapView")}>
               <i className="bi bi-trash"></i> Bins
+            </button>
+            <button className="nav-link" aria-current="page" onClick={() => setCurrentScreen("routes")}>
+              <i className="bi bi-map"></i> Routes
             </button>
             <button className="nav-link" onClick={() => setCurrentScreen("employees")}>
               <i className="bi bi-people-fill"></i> Employees

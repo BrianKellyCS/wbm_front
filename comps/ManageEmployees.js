@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../styles/ManageEmployees.module.css';
 import { employees } from '../aaa_samples/employees';
 
+// Placeholder for backend data fetching
+const useFetchEmployees = () => {
+  // This function will later be used to fetch data from your backend
+  // For now, it returns static data
+
+  return employees;
+};
+
 function ManageEmployees() {
+  const [employees, setEmployees] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   // State to manage sorted data and sorting direction
   const [sortedEmployees, setSortedEmployees] = useState(employees);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
+  // Load employees data
+  useEffect(() => {
+    setIsLoading(true);
+    try {
+      const fetchedEmployees = useFetchEmployees();
+      setEmployees(fetchedEmployees);
+      setSortedEmployees(fetchedEmployees); // Initially, sortedEmployees is the same as employees
+    } catch (e) {
+      setError(e);
+    }
+    setIsLoading(false);
+  }, []);
 
   // Function to handle sorting
   const sortData = (key) => {
@@ -51,6 +76,14 @@ function ManageEmployees() {
     //logic for view logs
     console.log('View Logs clicked');
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading data</p>;
+  }
 
 
   return (
