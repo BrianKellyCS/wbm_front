@@ -40,6 +40,11 @@ function MapView({ isAdmin }) {
   const [activeDevice, setActiveDevice] = useState(null); // To track the active device for submenu
 
 
+  const handleMarkerClick = (device) => {
+    setSelectedMarker(device);
+  };
+
+
   // Google Maps settings
   const zoomDistance = 16;
   const mapWidth = "800px";
