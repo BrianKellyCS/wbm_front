@@ -47,6 +47,114 @@ function AdminDashboard() {
     );
   };
 
+
+/////////////////////////////////////////////////////////////////
+
+function decodeBase64(encodedData) {
+  try {
+    return atob(encodedData);
+  } catch (e) {
+    console.error("Error decoding Base64 data:", e);
+    return null;
+  }
+}
+
+
+
+
+
+
+// State for API and MQTT data
+  const [apiData, setApiData] = useState(null);
+  const [mqttData, setMqttData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch API and WebSocket data
+  useEffect(() => {
+    // Fetch data from the API
+    const makeRequest = async () => {
+      try {
+        const response = await fetch("/api/fetchApplications", {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setApiData(data);
+        setLoading(false);
+      } catch (e) {
+        console.error("There was an error fetching the API data: ", e);
+        setError(e.message);
+        setLoading(false);
+      }
+    };
+    makeRequest();
+
+    // Establish WebSocket connection
+    const ws = new WebSocket('ws://localhost:1880/ws/mqtt');
+
+    ws.onopen = () => {
+      console.log('Connected to WebSocket');
+    };
+
+ws.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+
+  // Check if the message has a 'data' field and decode it
+  if (message.payload && message.payload.data) {
+    const decodedData = decodeBase64(message.payload.data);
+    message.decodedData = decodedData; // Store decoded data separately in the message object
+  }
+
+  setMqttData(prevData => [...prevData, message]);
+};
+
+
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+
+
+
+
+
+
+  const renderApiAndMqttData = () => (
+    <div>
+      <h1>API and MQTT Data</h1>
+      {loading && <p>Loading data...</p>}
+      {error && <p>Error fetching data: {error}</p>}
+      <h2>API Data</h2>
+      {apiData && <div><pre>{JSON.stringify(apiData, null, 2)}</pre></div>}
+      <h2>Unparsed MQTT Data</h2>
+      {mqttData && <div><pre>{JSON.stringify(mqttData, null, 2)}</pre></div>}
+    </div>
+  );
+
+
+
+/////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
   const QuickStats = ({ stats }) => {
     // stats
     return (
@@ -132,6 +240,8 @@ function AdminDashboard() {
         return <ManageEmployees />;
       case "feedback":
         return <Feedback />;
+      case "apiMqttData":
+        return renderApiAndMqttData();
       case "data":
         return <Data />;
       default:
@@ -200,6 +310,13 @@ function AdminDashboard() {
             <button className="nav-link" aria-current="page" onClick={() => setCurrentScreen("routes")}>
               <i className="bi bi-map"></i> Routes
             </button>
+
+
+
+		<button className="nav-link" onClick={() => setCurrentScreen("apiMqttData")}>
+        <i className="bi bi-cloud-download"></i> API/MQTT Data
+      </button>
+
             <button className="nav-link" onClick={() => setCurrentScreen("employees")}>
               <i className="bi bi-people-fill"></i> Employees
             </button>
